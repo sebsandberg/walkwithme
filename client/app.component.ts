@@ -5,7 +5,7 @@ import "rxjs/add/operator/map";
 
 @Component({
     selector: "app",
-    template: "./templates/app.html"
+    template: `client/templates/app.html`
 })
 export class AppComponent {
     appName: string = "Angular 2 Express";
