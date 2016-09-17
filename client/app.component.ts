@@ -53,5 +53,6 @@ export class AppComponent {
     logout(): void {
         localStorage.removeItem("id_token");
         this.isLogged = false;
+        this.myPopup.hide();
     }
 }
