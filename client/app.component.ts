@@ -1,29 +1,27 @@
 import { Component, ViewChild } from "@angular/core";
 import { Http, Headers, RequestOptions, Response } from "@angular/http";
 import { SemanticPopupComponent } from "ng-semantic";
+import { User } from "./models/user";
 import "rxjs/add/operator/map";
 
 @Component({
     selector: "app",
-    templateUrl: `client/templates/app.html`
+    templateUrl: `client/templates/app.html`,
+    providers: [User]
 })
 export class AppComponent {
     appName: string = "Angular 2 Express";
-    user: any = {
-        password: "angualr2express",
-        username: "john"
-    };
 
     isLogged: boolean;
     response: { hashed: string, salt: string };
     @ViewChild("myPopup") myPopup: SemanticPopupComponent;
 
-    constructor(private http: Http) {
+    constructor(private http: Http, private user: User) {
         this.isLogged = !!localStorage.getItem("id_token");
     }
 
     signup() {
-        this.http.post("/login/signup", JSON.stringify({ password: this.user.password, username: this.user.username }), new RequestOptions({
+        this.http.post("/login/signup", JSON.stringify({ password: this.user.password, username: this.user.name }), new RequestOptions({
             headers: new Headers({"Content-Type": "application/json"})
         }))
             .map((res: any) => res.json())

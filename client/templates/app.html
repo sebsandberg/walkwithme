@@ -10,16 +10,25 @@
 
     <sm-popup class="huge" #myPopup>
         <sm-card class="card basic">
-            <card-title> Simple login </card-title>
+            <card-title>
+                <span *ngIf="!isLogged">Login</span>
+                <span *ngIf="isLogged"> Account information</span>
+            </card-title>
             <card-subtitle>  </card-subtitle>
             <card-content>
-                <div class="ui field input right icon">
-                  <input type="text" [ngModel]="user.username">
-                  <i class="user icon"></i>
+                <div *ngIf="!isLogged">
+                    <div class="ui field input right icon">
+                    <input type="text" [(ngModel)]="user.name">
+                    <i class="user icon"></i>
+                    </div>
+                    <div class="ui field input right icon">
+                    <input type="password" [(ngModel)]="user.password">
+                    <i class="user icon"></i>
+                    </div>
                 </div>
-                <div class="ui field input right icon">
-                  <input type="password" [ngModel]="user.password">
-                  <i class="user icon"></i>
+                <div *ngIf="isLogged">
+                    <p> Welcome {{user.name}}<p>
+                    <p> Your current points {{user.points}}</p>
                 </div>
             </card-content>
             <sm-button class="bottom attached fluid primary" *ngIf="!isLogged" (click)="login()">Login</sm-button>
