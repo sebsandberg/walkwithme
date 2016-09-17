@@ -1,28 +1,41 @@
 <div class="ui container">
     <nav class="ui menu inverted teal huge">
         <a routerLink="home" class="item">Home</a>
-        <a routerLink="contact" class="item">Contact Me</a>
 
         <nav class="menu right">
-            <a class="bottom attached fluid primary" (click)="signup()" class="item">Signup</a>
-            <a (click)="myPopup.show($event, {position: 'right center'})" *ngIf="!isLogged" class="item">Login</a>
-            <a (click)="logout()" *ngIf="isLogged" class="item inverted red">Logout</a>
+            <a class="bottom attached fluid primary" (click)="signup()" class="item">About</a>
+            <a (click)="myPopup.show($event, {position: 'right center'})" class="item"><span *ngIf="!isLogged">Login</span><span *ngIf="isLogged">Account</span></a>
         </nav>
     </nav>
 
     <sm-popup class="huge" #myPopup>
         <sm-card class="card basic">
-            <card-title> Simple login </card-title>
+            <card-title>
+                <span *ngIf="!isLogged">Login</span>
+                <span *ngIf="isLogged"> Account information</span>
+            </card-title>
             <card-subtitle>  </card-subtitle>
             <card-content>
-                <p><b>Password</b>: angualr2express</p>
-                <p><b>Username</b>: john</p>
+                <div *ngIf="!isLogged">
+                    <div class="ui field input right icon">
+                    <input type="text" [(ngModel)]="user.name">
+                    <i class="user icon"></i>
+                    </div>
+                    <div class="ui field input right icon">
+                    <input type="password" [(ngModel)]="user.password">
+                    <i class="user icon"></i>
+                    </div>
+                </div>
+                <div *ngIf="isLogged">
+                    <p> Welcome {{user.name}}<p>
+                    <p> Your current points {{user.points}}</p>
+                </div>
             </card-content>
-
             <sm-button class="bottom attached fluid primary" *ngIf="!isLogged" (click)="login()">Login</sm-button>
             <sm-button class="bottom attached fluid red" *ngIf="isLogged" (click)="logout()">Logout</sm-button>
         </sm-card>
     </sm-popup>
+
 
     <hello [name]="appName"></hello>
 
@@ -30,14 +43,5 @@
 
     <router-outlet></router-outlet>
 
-    <sm-segment *ngIf="response">
-        <div style="word-break: break-all"><b>Hashed:</b> {{response?.hashed}}</div>
-        <div class="ui divider"></div>
-        <div style="word-break: break-all"><b>Salt:</b> {{response?.salt}}</div>
-    </sm-segment>
-
-    <div class="center">
-        <img src='https://angular.io/resources/images/logos/standard/shield-large.png'>
-    </div>
 
 </div>
