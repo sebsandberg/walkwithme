@@ -14,7 +14,11 @@
             <card-subtitle>  </card-subtitle>
             <card-content>
                 <div class="ui field input right icon">
-                  <input type="text">
+                  <input type="text" [ngModel]="user.username">
+                  <i class="user icon"></i>
+                </div>
+                <div class="ui field input right icon">
+                  <input type="password" [ngModel]="user.password">
                   <i class="user icon"></i>
                 </div>
             </card-content>
