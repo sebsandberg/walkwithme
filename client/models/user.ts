@@ -1,5 +1,19 @@
 export class User {
-    public name: number
-    public password: string
-    public points: number = 0
+    id: string
+    name: number
+    password: string
+    points: number = 0
+
+    constructor() {
+        this.id = this.guid()
+    }
+
+    guid() {
+        function s4() {
+        return Math.floor((1 + Math.random()) * 0x10000)
+            .toString(16)
+            .substring(1)
+        }
+        return [s4(), s4(), s4(), s4()].join('-')
+    }
 }
