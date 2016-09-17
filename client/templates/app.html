@@ -29,6 +29,7 @@
                 <div *ngIf="isLogged">
                     <p> Welcome {{user.name}}<p>
                     <p> Your current points {{user.points}}</p>
+                    <sm-button class="bottom attached fluid primary" (click)="createWalk()">Create walk</sm-button>
                 </div>
             </card-content>
             <sm-button class="bottom attached fluid primary" *ngIf="!isLogged" (click)="login()">Login</sm-button>

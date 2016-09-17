@@ -2,6 +2,8 @@ import { Component, ViewChild } from "@angular/core";
 import { Http, Headers, RequestOptions, Response } from "@angular/http";
 import { SemanticPopupComponent } from "ng-semantic";
 import { User } from "./models/user";
+import { Walk } from './models/walk';
+import { ApiService } from "./service/api.service"
 import "rxjs/add/operator/map";
 
 @Component({
@@ -16,7 +18,7 @@ export class AppComponent {
     response: { hashed: string, salt: string };
     @ViewChild("myPopup") myPopup: SemanticPopupComponent;
 
-    constructor(private http: Http, private user: User) {
+    constructor(private http: Http, private user: User, private apiService: ApiService) {
         this.isLogged = !!localStorage.getItem("id_token");
     }
 
@@ -52,5 +54,16 @@ export class AppComponent {
         localStorage.removeItem("id_token");
         this.isLogged = false;
         this.myPopup.hide();
+    }
+
+    createWalk() {
+        let walk = new Walk()
+        walk.creatorUserID = this.user.id;
+        walk.departureTime = new Date(2016,09,17,14,55)
+        walk.startLatitude = "125"
+        walk.startLongitude = "433"
+        walk.endLongitude = "1233"
+        walk.endLatitude = "1223123123"
+        this.apiService.createWalk(walk)
     }
 }

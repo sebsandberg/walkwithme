@@ -30,7 +30,6 @@ protectedRouter.get("/", (request: Request, response: Response) => {
 });
 
 protectedRouter.post("/new-walk-path", (request: Request, response: Response) => {
-    console.log(request);
     walkPaths.newWalkPath(request.body, function(err, result) {
         if (err) {
             console.log('protected.ts - newWalkPath POST - error ' + err);

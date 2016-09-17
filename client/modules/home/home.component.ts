@@ -21,4 +21,6 @@ export class HomeComponent {
                     setTimeout(() => this.error = null, 4000)
                 });
     }
+
+    createWalk(){}
 }
