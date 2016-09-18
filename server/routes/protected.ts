@@ -42,6 +42,19 @@ protectedRouter.post("/new-walk-path", (request: Request, response: Response) =>
     });
 });
 
+protectedRouter.get("/get-walk-paths", (request: Request, response: Response) => {
+    walkPaths.getWalkPaths(function(err, result) {
+        console.log("hihi")
+        if (err) {
+            console.log('protected.ts - getWalkPaths GET - error ' + err);
+            response.json({ err: err });
+        } else {
+            console.log(JSON.stringify(result));
+            response.json(result);
+        }
+    });
+});
+
 export { protectedRouter }
 
 

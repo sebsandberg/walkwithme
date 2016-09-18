@@ -6,7 +6,8 @@ CREATE OR REPLACE FUNCTION public.new_walk_path(
     startLongitude text,
     endLatitude text,
     endLongitude text,
-    departureTime text)
+    departureTime text,
+    description text)
   RETURNS boolean AS
 $BODY$
 DECLARE
@@ -15,8 +16,8 @@ DECLARE
 
 BEGIN
 
-	INSERT INTO "WalkPath" ("CreatorUserId","StartLatitude","StartLongitude","EndLatitude","EndLongitude","DepartureTime")
-		VALUES (creatorUserId, startLatitude, startLongitude, endLatitude, endLongitude, to_timestamp(departureTime, 'YYYY-MM-DD HH24:MI'))
+	INSERT INTO "WalkPath" ("CreatorUserId","StartLatitude","StartLongitude","EndLatitude","EndLongitude","DepartureTime","Description")
+		VALUES (creatorUserId, startLatitude, startLongitude, endLatitude, endLongitude, to_timestamp(departureTime, 'YYYY-MM-DD HH24:MI'), description)
 		RETURNING "Id" into walkPathId;
 	RAISE NOTICE 'walkPathId %', walkPathId; 
 
