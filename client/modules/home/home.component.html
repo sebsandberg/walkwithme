@@ -1,7 +1,10 @@
 <div class="ui container">
 	<sm-segment class="raised">
+		<sm-button class="green" (click)="toggleList()">
+			Show List
+		</sm-button>
 		<sm-button class="green" (click)="toggleMap()">
-			<span *ngIf="!showMap">Show</span><span *ngIf="showMap">Hide</span> map
+			Show  map
 		</sm-button>
 		<sm-button class="green" (click)="toggleCreateWalk()">
 			Create Walk
@@ -11,19 +14,19 @@
 		<div *ngIf="createWalk">
 			<div class="ui fields">
 				<div class="ui input field right icon">
-					<input type="text" [(ngModel)]="newWalk.startAddress">
+					<input type="text" [(ngModel)]="newWalk.StartAddress">
 					<i class="map pin icon"></i>
 				</div>
 				<div class="ui input field right icon">
-					<input type="text" [(ngModel)]="newWalk.endAddress">
+					<input type="text" [(ngModel)]="newWalk.EndAddress">
 					<i class="map pin icon"></i>
 				</div>
 				<div class="ui input field right icon">
-					<input type="text" [(ngModel)]="newWalk.departureTime">
+					<input type="text" [(ngModel)]="newWalk.DepartureTime">
 					<i class="calendar icon"></i>
 				</div>
 				<div class="ui input field  right icon">
-					<input type="text" [(ngModel)]="newWalk.description">
+					<input type="text" [(ngModel)]="newWalk.Description">
 					<i class="align left icon"></i>
 				</div>
 				<sm-button class="green" (click)="submitWalk()">
@@ -31,11 +34,30 @@
 			</sm-button>
 			</div>
 		</div>
+		<div *ngIf="showList">
+			<div class="ui cards" *ngFor="let walk of walks">
+				<div class="ui card">
+					<div class="content">
+						<div class="header">From: {{walk.StartAddress}} To: {{walk.EndAddress}}</div>
+						<div class="meta">Departure at: {{walk.DepartureTime}}</div>
+						<div class="description">{{walk.Description}}<br /> Current people joining: {{walk.UsersInGroup.length}}</div>
+					</div>
+
+					<sm-button *ngIf="!walk.HasJoined" class="green" (click)="joinWalk(walk)">
+						Join Walk
+					</sm-button>
+					<sm-button *ngIf="walk.HasJoined" class="red" (click)="leaveWalk(walk)">
+						Leave Walk
+					</sm-button>
+				</div>
+			</div>
+
+		</div>
 		<div *ngIf="showMap">
 			<sebm-google-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
-				<sebm-google-map-marker [latitude]="lat" [longitude]="lng"></sebm-google-map-marker>
 				<div *ngFor="let walk of walks">
-					<sebm-google-map-polyline>
+					<sebm-google-map-polyline [lineClick]="showWalk(walk)">
+						<sebm-google-map-marker [latitude]="convertToNum(walk.StartLatitude)" [longitude]="convertToNum(walk.StartLongitude)" [markerClick]="markerClick(walk)"></sebm-google-map-marker>
 						<sebm-google-map-polyline-point [latitude]="convertToNum(walk.StartLatitude)" [longitude]="convertToNum(walk.StartLongitude)">
 						</sebm-google-map-polyline-point>
 						<sebm-google-map-polyline-point [latitude]="convertToNum(walk.EndLatitude)" [longitude]="convertToNum(walk.EndLongitude)">

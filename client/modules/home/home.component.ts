@@ -12,51 +12,80 @@ export class HomeComponent {
     walks: Walk[]
     showMap: boolean = false
     createWalk: boolean = false
+    showList: boolean = true
     lat: number = 43.4722152
     lng: number = -80.5420159
     zoom: number = 16
     error: string;
     response: {};
     newWalk: Walk = new Walk()
+    displayedWalk: Walk
     constructor(private apiService: ApiService) {
         this.apiService.getWalks().subscribe(res => {
+            console.log(res)
             this.walks = res;
         })
 
-        this.newWalk.creatorUserID = "John Smith"
-        this.newWalk.creatorUserID = "Ramy Z";//this.user.id;
-        this.newWalk.departureTime = new Date(2016,09,18,23,59)
-        this.newWalk.startLatitude = "43.4752375"
-        this.newWalk.startLongitude = "-80.5265779"
-        this.newWalk.endLatitude = "43.4700123"
-        this.newWalk.endLongitude = "-80.5370593"
-        this.newWalk.description = "Bar to home"
-        this.newWalk.startAddress = "Phils"
-        this.newWalk.endAddress = "University of Waterloo place"
+        this.newWalk.CreatorUserID = "Ramy Z";//this.user.id;
+        this.newWalk.DepartureTime = new Date(2016,09,18,23,59)
+        this.newWalk.StartLatitude = "43.4752375"
+        this.newWalk.StartLongitude = "-80.5265779"
+        this.newWalk.EndLatitude = "43.4700123"
+        this.newWalk.EndLongitude = "-80.5370593"
+        this.newWalk.Description = "Bar to home"
+        this.newWalk.StartAddress = "Phils"
+        this.newWalk.EndAddress = "University of Waterloo place"
 
     }
 
     toggleCreateWalk(){
         if (this.showMap) this.showMap = false
-        this.createWalk = !this.createWalk
+        if (this.showList) this.showList = false
+        this.createWalk = true
     }
 
     toggleMap(){
         if (this.createWalk) this.createWalk = false
-        this.showMap = !this.showMap
+        if (this.showList) this.showList = false
+        this.showMap = true
     }
+
+    toggleList() {
+        if (this.createWalk) this.createWalk = false
+        if (this.showMap) this.showMap = false
+        this.showList = true
+    }
+
+    joinWalk(walk: Walk){
+        walk.UsersInGroup.push('{name:"John"}')
+        walk.HasJoined = true
+    }
+
+    leaveWalk(walk: Walk){
+        walk.UsersInGroup.pop()
+        walk.HasJoined = false
+    }
+    markerClick(walk: Walk){
+        console.log("marker clik", walk)
+    }
+    showWalk (walk: Walk){
+        console.log("line with walk", walk)
+        this.displayedWalk = walk
+    }
+
 
     convertToNum(str) {
         return parseFloat(str)
     }
 
-    submitWalk(){
+    submitWalk() {
         this.apiService.createWalk(this.newWalk)
+        this.newWalk = new Walk()
         this.apiService.getWalks().subscribe(res => {
             this.walks = res
-        }
-
+        })
     }
+
     protected() {
         this.apiService
             .get("/api")

@@ -18,8 +18,8 @@ function newWalkPath(walkPath, cb){
     pg.connect(conString, function(err, client, done) {
       if(handleError(err)) throw err;
       client.query(
-        'SELECT new_walk_path($1,$2,$3,$4,$5,$6,$7,$8,$9)', 
-        [walkPath.creatorUserID,walkPath.startLatitude,walkPath.startLongitude,walkPath.endLatitude,walkPath.endLongitude,walkPath.departureTime,walkPath.description,walkPath.startAddress,walkPath.endAddress],
+        'SELECT new_walk_path($1,$2,$3,$4,$5,$6,$7,$8,$9)',
+        [walkPath.CreatorUserID,walkPath.StartLatitude,walkPath.StartLongitude,walkPath.EndLatitude,walkPath.EndLongitude,walkPath.DepartureTime,walkPath.Description,walkPath.StartAddress,walkPath.EndAddress],
         function(err, result) {
           if(handleError(err)) throw err;
           var success = result.rows[0].success;
@@ -48,7 +48,7 @@ function getWalkPaths(cb){
         for (var i = 0; i < result.rows.length; i++) {
           dbWalkPath = result.rows[i];
           // console.log(JSON.stringify(dbWalkPath));
-          
+
           if (isNewWalkPath) {
             if (i != 0) {
               // console.log("*****" + JSON.stringify(walkPath));
@@ -72,10 +72,10 @@ function getWalkPaths(cb){
             walkPath.EndAddress = dbWalkPath.endaddress;
             walkPath.UsersInGroup = [];
           }
-          
+
           // console.log(dbWalkPath.walkpathid);
           // console.log(prevWalkPathId);
-            
+
           walkPath.UsersInGroup.push(dbWalkPath.userid);
 
           if (i < result.rows.length - 1) {
@@ -87,8 +87,8 @@ function getWalkPaths(cb){
             isNewWalkPath = true;
           }
           // console.log(isNewWalkPath);
-          
-          
+
+
 
           prevWalkPath = walkPath;
         }
