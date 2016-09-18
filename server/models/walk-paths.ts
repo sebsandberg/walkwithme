@@ -1,8 +1,8 @@
 var pg = require('pg');
 
 pg.defaults.ssl = true;
-var conString = process.env.DATABASE_URL;
-  
+var conString = process.env.DATABASE_URL || 'postgres://udttdkotrkqddu:FrX5qYug86ueaOjyx8Cdjwp3Mh@ec2-107-22-250-212.compute-1.amazonaws.com:5432/d2r64t6b95nlv0';
+
 function handleError(err) {
   if(!err) return false;
   return true;
@@ -15,11 +15,11 @@ function newWalkPath(walkPath, cb){
     // var departureTime = new Date(walkPath.departureTime).toISOString();
     // console.log("new - " + departureTime);
 
-    pg.connect(conString, function(err, client, done) {      
+    pg.connect(conString, function(err, client, done) {
       if(handleError(err)) throw err;
       client.query(
-        'SELECT new_walk_path($1,$2,$3,$4,$5,$6,$7)', 
-        [walkPath.creatorUserID, walkPath.startLatitude, walkPath.startLongitude, walkPath.endLatitude, walkPath.endLongitude, walkPath.departureTime, walkPath.description], 
+        'SELECT new_walk_path($1,$2,$3,$4,$5,$6,$7)',
+        [walkPath.creatorUserID, walkPath.startLatitude, walkPath.startLongitude, walkPath.endLatitude, walkPath.endLongitude, walkPath.departureTime, walkPath.description],
         function(err, result) {
           if(handleError(err)) throw err;
           var success = result.rows[0].success;
@@ -31,10 +31,10 @@ function newWalkPath(walkPath, cb){
 }
 
 function getWalkPaths(cb){
-    
-    pg.connect(conString, function(err, client, done) {      
+
+    pg.connect(conString, function(err, client, done) {
       if(handleError(err)) throw err;
-      
+
       client.query('SELECT * FROM get_walk_paths()', function(err, result) {
         if(handleError(err)) throw err;
 
@@ -65,7 +65,7 @@ function getWalkPaths(cb){
               // console.log("*****" + JSON.stringify(walkPath));
               walkPathsList.push(prevWalkPath);
             }
-            
+
             isNewWalkPath = false;
             // prevWalkPathId = '';
           }
@@ -88,7 +88,7 @@ function getWalkPaths(cb){
         cb(null, walkPathsList);
       });
 
-      
+
     });
 
     // convert departure time from UTC since db is in UTC time

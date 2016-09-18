@@ -18,6 +18,12 @@ export class ApiService {
             .map((response: Response) => response.json());
     }
 
+    getWalks(){
+        return this.http.get("/api/get-walk-paths").map((res: any) => res.json()).subscribe((res: Response) => {
+            console.log(res)
+        })
+    }
+
     createWalk(walk: Walk) {
         return this.http.post("/api/new-walk-path", JSON.stringify(walk), new RequestOptions({
             headers: new Headers({"Content-Type": "application/json"})
