@@ -44,6 +44,7 @@ function getWalkPaths(cb){
         var usersList = [];
         var prevWalkPathId = '';
         let dbWalkPath: any = {};
+        let prevWalkPath: any = {};
         for (var i = 0; i < result.rows.length; i++) {
           dbWalkPath = result.rows[i];
           // console.log(JSON.stringify(dbWalkPath));
@@ -73,7 +74,7 @@ function getWalkPaths(cb){
           if (i != 0 && dbWalkPath.walkpathid != prevWalkPathId) {
             isNewWalkPath = true;
           } else if (i != 0) {
-            walkPath.UsersInGroup.push(dbWalkPath.userid);
+            usersList.push(dbWalkPath.userid);
           }
           // console.log(isNewWalkPath);
           prevWalkPathId = dbWalkPath.walkpathid;
