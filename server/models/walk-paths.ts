@@ -18,8 +18,7 @@ function newWalkPath(walkPath, cb){
     pg.connect(conString, function(err, client, done) {
       if(handleError(err)) throw err;
       client.query(
-        'SELECT new_walk_path($1,$2,$3,$4,$5,$6,$7)',
-        [walkPath.creatorUserID, walkPath.startLatitude, walkPath.startLongitude, walkPath.endLatitude, walkPath.endLongitude, walkPath.departureTime, walkPath.description],
+        'SELECT new_walk_path($1,$2,$3,$4,$5,$6,$7,$8,$9)', 
         function(err, result) {
           if(handleError(err)) throw err;
           var success = result.rows[0].success;
@@ -59,6 +58,8 @@ function getWalkPaths(cb){
           // walkPath.DepartureTime = new Date(dbWalkPath.departuretime).Parse();
           walkPath.DepartureTime = dbWalkPath.departuretime;
           walkPath.Description = dbWalkPath.description;
+          walkPath.StartAddress = dbWalkPath.startaddress;
+          walkPath.EndAddress = dbWalkPath.endaddress;
           walkPath.UsersInGroup = [dbWalkPath.userid];
           if (isNewWalkPath) {
             if (i != 0) {

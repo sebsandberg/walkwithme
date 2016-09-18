@@ -3,7 +3,7 @@
 -- DROP FUNCTION public.get_walk_paths();
 
 CREATE OR REPLACE FUNCTION public.get_walk_paths()
-  RETURNS TABLE(walkpathid integer, startlatitude text, startlongitude text, endlatitude text, endlongitude text, departuretime timestamp with time zone, description text, userid text) AS
+  RETURNS TABLE(walkpathid integer, startlatitude text, startlongitude text, endlatitude text, endlongitude text, departuretime timestamp with time zone, description text, startaddress text, endaddress text, userid text) AS
 $BODY$
 
 SELECT  
@@ -14,6 +14,8 @@ SELECT
 	wp."EndLongitude",
 	wp."DepartureTime",
 	wp."Description",
+	wp."StartAddress",
+	wp."EndAddress",
 	g."UserId"
 FROM 
 	"WalkPath" wp,
