@@ -19,6 +19,7 @@ function newWalkPath(walkPath, cb){
       if(handleError(err)) throw err;
       client.query(
         'SELECT new_walk_path($1,$2,$3,$4,$5,$6,$7,$8,$9)', 
+        [walkPath.creatorUserID,walkPath.startLatitude,walkPath.startLongitude,walkPath.endLatitude,walkPath.endLongitude,walkPath.departureTime,walkPath.description,walkPath.startAddress,walkPath.endAddress],
         function(err, result) {
           if(handleError(err)) throw err;
           var success = result.rows[0].success;

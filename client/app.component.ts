@@ -59,13 +59,15 @@ export class AppComponent {
     createWalk() {
         let walk = new Walk()
         // TODO: uncomment code below to use correct user id
-        walk.creatorUserID = "Ramy Z";//this.user.id;
+        walk.creatorUserID = "John S";//this.user.id;
         walk.departureTime = new Date(2016,09,18,23,59)
         walk.startLatitude = "43.4752375"
         walk.startLongitude = "-80.5265779"
-        walk.endLongitude = "43.4700123"
-        walk.endLatitude = "-80.5370593"
+        walk.endLatitude = "43.4700123"
+        walk.endLongitude = "-80.5370593"
         walk.description = "Phils to UWP"
+        walk.startAddress = "Test Spot 1"
+        walk.endAddress = "Test Spot 2"
         this.apiService.createWalk(walk)
     }
 }

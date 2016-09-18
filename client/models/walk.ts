@@ -6,4 +6,6 @@ export class Walk {
     endLongitude: string
     departureTime: Date
     description: string
+    startAddress: string
+    endAddress: string
 }
