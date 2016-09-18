@@ -8,8 +8,11 @@ import { ApiService } from "../../service/api.service";
 export class HomeComponent {
     error: string;
     response: {};
+    lat: number = 51.678418;
+    lng: number = 7.809007;
 
-    constructor(private apiService: ApiService) {}
+    constructor(private apiService: ApiService) {
+    }
 
     protected() {
         this.apiService
@@ -21,6 +24,4 @@ export class HomeComponent {
                     setTimeout(() => this.error = null, 4000)
                 });
     }
-
-    createWalk(){}
 }

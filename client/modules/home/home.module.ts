@@ -7,6 +7,8 @@ import { HomeComponent } from "./home.component";
 import { routing } from "./home.routing";
 import { SharedModule } from "../shared/shared.module";
 import { ContactModule } from "../contact/contact.module";
+import { AgmCoreModule } from 'angular2-google-maps/core';
+
 
 @NgModule({
     imports: [
@@ -15,7 +17,10 @@ import { ContactModule } from "../contact/contact.module";
         routing,
         SharedModule.forRoot(),
         NgSemanticModule,
-        ContactModule
+        ContactModule,
+        AgmCoreModule.forRoot({
+            apiKey: 'AIzaSyAAQ653Lh9GuC0JrkVTWSCMEC-mswWJzBU'
+        })
     ],
     declarations: [
         HomeComponent
