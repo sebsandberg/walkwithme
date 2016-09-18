@@ -12,7 +12,7 @@ import "rxjs/add/operator/map";
     providers: [User]
 })
 export class AppComponent {
-    appName: string = "Angular 2 Express";
+    appName: string = "Walk with me";
 
     isLogged: boolean;
     response: { hashed: string, salt: string };

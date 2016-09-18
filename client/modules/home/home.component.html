@@ -1,15 +1,49 @@
 <div class="ui container">
 	<sm-segment class="raised">
-		<sm-button class="green" (click)="protected()">Create walk</sm-button>
-		<sebm-google-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
-			<sebm-google-map-marker [latitude]="lat" [longitude]="lng"></sebm-google-map-marker>
-			<sebm-google-map-polyline>
-         <sebm-google-map-polyline-point [latitude]="lat" [longitude]="lng">
-         </sebm-google-map-polyline-point>
-         <sebm-google-map-polyline-point [latitude]="latB" [longitude]="lngB">
-         </sebm-google-map-polyline-point>
-     </sebm-google-map-polyline>
-		</sebm-google-map>
+		<sm-button class="green" (click)="toggleMap()">
+			<span *ngIf="!showMap">Show</span><span *ngIf="showMap">Hide</span> map
+		</sm-button>
+		<sm-button class="green" (click)="toggleCreateWalk()">
+			Create Walk
+		</sm-button>
+		<br />
+		<br />
+		<div *ngIf="createWalk">
+			<div class="ui fields">
+				<div class="ui input field right icon">
+					<input type="text" [(ngModel)]="newWalk.startAddress">
+					<i class="map pin icon"></i>
+				</div>
+				<div class="ui input field right icon">
+					<input type="text" [(ngModel)]="newWalk.endAddress">
+					<i class="map pin icon"></i>
+				</div>
+				<div class="ui input field right icon">
+					<input type="text" [(ngModel)]="newWalk.departureTime">
+					<i class="calendar icon"></i>
+				</div>
+				<div class="ui input field  right icon">
+					<input type="text" [(ngModel)]="newWalk.description">
+					<i class="align left icon"></i>
+				</div>
+				<sm-button class="green" (click)="submitWalk()">
+					Submit
+			</sm-button>
+			</div>
+		</div>
+		<div *ngIf="showMap">
+			<sebm-google-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+				<sebm-google-map-marker [latitude]="lat" [longitude]="lng"></sebm-google-map-marker>
+				<div *ngFor="let walk of walks">
+					<sebm-google-map-polyline>
+						<sebm-google-map-polyline-point [latitude]="convertToNum(walk.StartLatitude)" [longitude]="convertToNum(walk.StartLongitude)">
+						</sebm-google-map-polyline-point>
+						<sebm-google-map-polyline-point [latitude]="convertToNum(walk.EndLatitude)" [longitude]="convertToNum(walk.EndLongitude)">
+						</sebm-google-map-polyline-point>
+					</sebm-google-map-polyline>
+				</div>
+			</sebm-google-map>
+		</div>
 		<sm-message class="negative" *ngIf="error">
 			<message-content>{{error}}</message-content>
 		</sm-message>

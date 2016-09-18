@@ -19,9 +19,7 @@ export class ApiService {
     }
 
     getWalks(){
-        return this.http.get("/api/get-walk-paths").map((res: any) => res.json()).subscribe((res: Response) => {
-            console.log(res)
-        })
+        return this.http.get("/api/get-walk-paths").map((res: any) => res.json())
     }
 
     createWalk(walk: Walk) {

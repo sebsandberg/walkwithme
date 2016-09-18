@@ -3,6 +3,7 @@ import { HttpModule } from "@angular/http";
 import { NgSemanticModule } from "ng-semantic";
 import { CommonModule } from "@angular/common";
 
+import { FormsModule } from '@angular/forms';
 import { HomeComponent } from "./home.component";
 import { routing } from "./home.routing";
 import { SharedModule } from "../shared/shared.module";
@@ -17,6 +18,7 @@ import { AgmCoreModule } from 'angular2-google-maps/core';
         routing,
         SharedModule.forRoot(),
         NgSemanticModule,
+        FormsModule,
         ContactModule,
         AgmCoreModule.forRoot({
             apiKey: 'AIzaSyAAQ653Lh9GuC0JrkVTWSCMEC-mswWJzBU'
