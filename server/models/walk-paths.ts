@@ -18,8 +18,8 @@ function newWalkPath(walkPath, cb){
     pg.connect(conString, function(err, client, done) {
       if(handleError(err)) throw err;
       client.query(
-        'SELECT new_walk_path($1,$2,$3,$4,$5,$6,$7)',
-        [walkPath.creatorUserID, walkPath.startLatitude, walkPath.startLongitude, walkPath.endLatitude, walkPath.endLongitude, walkPath.departureTime, walkPath.description],
+        'SELECT new_walk_path($1,$2,$3,$4,$5,$6,$7,$8,$9)', 
+        [walkPath.creatorUserID,walkPath.startLatitude,walkPath.startLongitude,walkPath.endLatitude,walkPath.endLongitude,walkPath.departureTime,walkPath.description,walkPath.startAddress,walkPath.endAddress],
         function(err, result) {
           if(handleError(err)) throw err;
           var success = result.rows[0].success;
@@ -42,42 +42,54 @@ function getWalkPaths(cb){
         var isNewWalkPath = true;
         let walkPath: any = {};
         var usersList = [];
-        var prevWalkPathId = '';
+        var nextWalkPathId = '';
         let dbWalkPath: any = {};
         let prevWalkPath: any = {};
         for (var i = 0; i < result.rows.length; i++) {
           dbWalkPath = result.rows[i];
           // console.log(JSON.stringify(dbWalkPath));
-          walkPath = {};
-          walkPath.WalkPathId = dbWalkPath.walkpathid;
-          walkPath.StartLatitude = dbWalkPath.startlatitude;
-          walkPath.StartLongitude = dbWalkPath.startlongitude;
-          walkPath.EndLatitude = dbWalkPath.endlatitude;
-          walkPath.EndLongitude = dbWalkPath.endlongitude;
-          // console.log(dbWalkPath.departuretime);
-          // console.log((new Date(dbWalkPath.departuretime)).toString());
-          // walkPath.DepartureTime = new Date(dbWalkPath.departuretime).Parse();
-          walkPath.DepartureTime = dbWalkPath.departuretime;
-          walkPath.Description = dbWalkPath.description;
-          walkPath.UsersInGroup = [dbWalkPath.userid];
+          
           if (isNewWalkPath) {
             if (i != 0) {
               // console.log("*****" + JSON.stringify(walkPath));
-              walkPathsList.push(prevWalkPath);
+              walkPathsList.push(walkPath);
             }
 
             isNewWalkPath = false;
             // prevWalkPathId = '';
+            walkPath = {};
+            walkPath.WalkPathId = dbWalkPath.walkpathid;
+            walkPath.StartLatitude = dbWalkPath.startlatitude;
+            walkPath.StartLongitude = dbWalkPath.startlongitude;
+            walkPath.EndLatitude = dbWalkPath.endlatitude;
+            walkPath.EndLongitude = dbWalkPath.endlongitude;
+            // console.log(dbWalkPath.departuretime);
+            // console.log((new Date(dbWalkPath.departuretime)).toString());
+            // walkPath.DepartureTime = new Date(dbWalkPath.departuretime).Parse();
+            walkPath.DepartureTime = dbWalkPath.departuretime;
+            walkPath.Description = dbWalkPath.description;
+            walkPath.StartAddress = dbWalkPath.startaddress;
+            walkPath.EndAddress = dbWalkPath.endaddress;
+            walkPath.UsersInGroup = [];
           }
+          
           // console.log(dbWalkPath.walkpathid);
           // console.log(prevWalkPathId);
-          if (i != 0 && dbWalkPath.walkpathid != prevWalkPathId) {
+            
+          walkPath.UsersInGroup.push(dbWalkPath.userid);
+
+          if (i < result.rows.length - 1) {
+            nextWalkPathId = result.rows[i+1].walkpathid;
+          } else {
+            nextWalkPathId = '';
+          }
+          if (dbWalkPath.walkpathid != nextWalkPathId) {
             isNewWalkPath = true;
-          } else if (i != 0) {
-            usersList.push(dbWalkPath.userid);
           }
           // console.log(isNewWalkPath);
-          prevWalkPathId = dbWalkPath.walkpathid;
+          
+          
+
           prevWalkPath = walkPath;
         }
         if (result.rows.length > 0) {

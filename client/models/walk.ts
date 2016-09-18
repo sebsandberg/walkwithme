@@ -8,4 +8,6 @@ export class Walk {
     startAddress: string
     endAddress: string
     description: string
+    startAddress: string
+    endAddress: string
 }
