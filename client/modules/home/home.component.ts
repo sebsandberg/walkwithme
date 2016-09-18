@@ -28,8 +28,8 @@ export class HomeComponent {
         this.newWalk.departureTime = new Date(2016,09,18,23,59)
         this.newWalk.startLatitude = "43.4752375"
         this.newWalk.startLongitude = "-80.5265779"
-        this.newWalk.endLongitude = "43.4700123"
-        this.newWalk.endLatitude = "-80.5370593"
+        this.newWalk.endLatitude = "43.4700123"
+        this.newWalk.endLongitude = "-80.5370593"
         this.newWalk.description = "Bar to home"
         this.newWalk.startAddress = "Phils"
         this.newWalk.endAddress = "University of Waterloo place"
@@ -52,6 +52,10 @@ export class HomeComponent {
 
     submitWalk(){
         this.apiService.createWalk(this.newWalk)
+        this.apiService.getWalks().subscribe(res => {
+            this.walks = res
+        }
+
     }
     protected() {
         this.apiService
